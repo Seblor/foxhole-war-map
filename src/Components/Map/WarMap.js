@@ -1,20 +1,25 @@
 import React from 'react';
 import L from 'leaflet';
-import {Map, TileLayer, ImageOverlay, LayersControl, Pane} from 'react-leaflet';
+import { Map, TileLayer, ImageOverlay, Pane } from 'react-leaflet';
 
 import MapRegions from './MapRegions.js';
 import MapItems from './MapItems.js';
+import ServerSelector from './ServerSelector.js';
 
-const {BaseLayer, Overlay} = LayersControl;
- 
-class WarMap extends React.Component{
+class WarMap extends React.Component {
 
     constructor() {
         super();
 
         this.state = {
-            mapItems: 0
+            mapItems: 0,
+            selectedServer: window.location.hash.replace('#', '') || 1
         }
+    }
+
+    changeServer(selected) {
+        window.location.hash = "#" + selected
+        this.setState({selectedServer: selected})
     }
 
     render() {
@@ -24,7 +29,7 @@ class WarMap extends React.Component{
                 zoomControl={true}
                 doubleClickZoom={false}
                 attributionControl={true}
-        
+
                 crs={L.CRS.Simple}
                 center={[-128, 128]}
                 zoom={3}
@@ -33,7 +38,7 @@ class WarMap extends React.Component{
                 zoomSnap={1}
                 wheelPxPerZoomLevel={60}
 
-                maxBounds={[[-256,-50],[0,306]]}
+                maxBounds={[[-256, -50], [0, 306]]}
                 maxBoundsViscosity={1.0}>
 
                 {/* DEFAULT LEAFLET PANES ZINDEX
@@ -46,6 +51,8 @@ class WarMap extends React.Component{
                 popupPane	700	Popups.
                 */}
 
+                <ServerSelector onServerChange={(event) => this.changeServer(event)} selectedServer={this.state.selectedServer} />
+
                 <Pane name='basesPane' style={{ zIndex: 610 }} />
                 <Pane name='structuresPane' style={{ zIndex: 609 }} />
                 <Pane name='resourcesPane' style={{ zIndex: 608 }} />
@@ -56,7 +63,7 @@ class WarMap extends React.Component{
                 <Pane name='backgroundPane' style={{ zIndex: 100 }} />
 
                 <MapRegions />
-                <MapItems />
+                <MapItems selectedServer={this.state.selectedServer} />
 
                 <ImageOverlay
                     url={process.env.PUBLIC_URL + '/WorldMapBG.jpg'}
@@ -67,7 +74,7 @@ class WarMap extends React.Component{
                     pane='backgroundPane'
                 />
 
-                <TileLayer 
+                <TileLayer
                     url='https://raw.githubusercontent.com/Kastow/Foxhole-Map-Tiles/master/Tiles/{z}/{z}_{x}_{y}.png'
                     zIndex={200}
                 />

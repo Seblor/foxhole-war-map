@@ -1,7 +1,6 @@
 import L from 'leaflet';
 
 const mapBounds = [[-228,0],[-28,256]]
-const mapHeight = mapBounds[1][0]-mapBounds[0][0];
 const mapWidth = mapBounds[1][1]-mapBounds[0][1];
 const mapOrigin = {x:128,y:-128}
 
@@ -10,9 +9,6 @@ export const w = mapWidth/5.5 // Standard Region Width
 export const k = w*Math.sqrt(3)/2 // Standard Region Height
 
 export const mapArray=[
-    //{id:0,name:'',center:[]},
-    //{id:1,name:'',center:[]},
-    //{id:2,name:'',center:[]},
     {id:3,name:'Deadlands',center:[o.y,o.x]},
     {id:4,name:'Callahans Passage',center:[o.y+k,o.x]},
     {id:5,name:'Marban Hollow',center:[o.y+0.5*k,o.x+0.75*w]},

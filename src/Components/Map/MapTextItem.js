@@ -1,6 +1,3 @@
-import * as MapIcon from './IconData.js';
-import * as MapData from './MapData.js';
-
 export default class MapTextItem{
     constructor(regionId, text, x, y) {
         this.regionId = regionId;
